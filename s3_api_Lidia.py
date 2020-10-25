@@ -5,10 +5,11 @@ import sys
 
 import requests
 
-def print_coord(address):
-    """Retrieve coordinates from Open Street Map"""
+def print_coord(city):
+    """Retrieve city hall coordinates of the city from Open Street Map"""
     osm = "https://nominatim.openstreetmap.org/search"
-    data = {'q': address, 'format': 'json'}
+    city = city + " Hotel de Ville"
+    data = {'q': city, 'format': 'json'}
     resp = requests.get(osm, data)
     json_list = json.loads(resp.text)
     for item in json_list:
@@ -16,24 +17,19 @@ def print_coord(address):
         short_name = display_name.split(", ")[0]
         lat = item['lat']
         lon = item['lon']
-        print(f"{short_name} ({lat} - {lon})")
+        street = display_name.split(", ")[1] + " " + display_name.split(", ")[2] + " " + display_name.split(", ")[3] + " " + display_name.split(", ")[4] + " " + display_name.split(", ")[5] + " " + display_name.split(", ")[6]
+        print(f"{short_name}, {street} ({lat} - {lon})")
 
 if __name__ == "__main__":
     try:
         service = sys.argv[1]
-        if service == "coord":
+        if service == "cityHall":
             try:
-                address = sys.argv[2]
-                print_coord(address)
+                city = sys.argv[2]
+                print_coord(city)
             except IndexError:
-                print("Please enter an address")
-        elif service == "info":
-            try:
-                country_name = sys.argv[2]
-                print_info(country_name)
-            except IndexError:
-                print("Please enter a country name")
+                print("Please enter the name of a city")
         else:
-            print("Unknown action, please use either 'coord' or 'info'")
+            print("Unknown action, please use either 'cityHall'")
     except IndexError:
-        print("Missing action, please use either 'coord' or 'info'")
+        print("Missing action, please use either 'cityHall'")
