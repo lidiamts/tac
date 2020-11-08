@@ -21,7 +21,7 @@ def test():
             print(f"'{doc.text}' contains no entities")
 
 def search():
-    text = open("data/all.txt").read()[:1000000]
+    text = open("module3/1850.txt").read()[:1000000]
     doc = nlp(text)
     people = defaultdict(int)
     for ent in doc.ents:
@@ -30,6 +30,12 @@ def search():
     sorted_people = sorted(people.items(), key=lambda kv: kv[1], reverse=True)
     for person, freq in sorted_people[:10]:
         print(f"{person} appears {freq} times in the corpus")
+    for ent in doc.ents:
+        if ent.label_ == "LOC" and len(ent.text) > 3:
+            location[ent.text] += 1
+    sorted_location = sorted(location.items(), key=lambda kv: kv[1], reverse=True)
+    for location, freq in sorted_location[:10]:
+        print(f"{location} appears {freq} times in the corpus")
 
 if __name__ == "__main__":
     try:
