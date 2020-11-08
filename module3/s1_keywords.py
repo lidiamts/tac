@@ -9,7 +9,7 @@ kw_extractor = yake.KeywordExtractor(lan="fr", top=20)
 data_path = "D:/DOCUMENTS/data/txt/"
 files = os.listdir(data_path)
 for f in sorted(files):
-    if f.startswith("Bxl_1847_"):
+    if f.startswith("Bxl_1848_"):
         text = open(data_path + f, encoding='utf-8', errors='ignore').read()
         keywords = kw_extractor.extract_keywords(text)
         kept = []
